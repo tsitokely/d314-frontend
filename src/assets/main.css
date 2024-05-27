@@ -1,2 +1,42 @@
 @import './base.css';
 @import 'bootstrap';
+
+.nav-link {
+  color: whitesmoke;
+}
+
+.nav-link:hover{
+  color: #115ebb;
+}
+
+.nav-link:focus {
+  color: #5d9fee;
+}
+
+.uniform-size span {
+  display: flex; 
+  flex-direction: row;
+  justify-content: center;
+  
+}
+.uniform-size label {
+  width: 120px;
+}
+.uniform-size select {
+  width: 60px;
+}
+.uniform-size label,
+.uniform-size select {
+  
+  box-sizing: border-box; /* Includes padding and border in element's total width and height */
+  padding: 8px; /* Adds some padding inside the label/select */
+  font-size: 14px; /* Sets a base font size */
+  margin-bottom: 10px; /* Adds some space below each element */
+ }
+.uniform-size label {
+   color: #333; /* Optional: Changes the label text color */
+ }
+.uniform-size select {
+   background-color: #fff; /* Optional: Changes the select background color */
+   border: 1px solid #ccc; /* Optional: Adds a border around the select */
+ }
