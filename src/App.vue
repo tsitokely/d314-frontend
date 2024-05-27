@@ -9,7 +9,7 @@ import { RouterLink, RouterView } from 'vue-router'
     <div class="wrapper">
       <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-          <RouterLink class="navbar-brand" to="/">Navigation</RouterLink>
+          <RouterLink class="navbar-brand" to="/"><h2>LocAppart</h2></RouterLink>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerd314" aria-controls="navbarTogglerd314" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
