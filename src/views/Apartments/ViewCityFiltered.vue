@@ -3,7 +3,12 @@
     <div class="card">
       <div class="card-header">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-between">
-          <h3 class="col-lg-auto mb-3 mb-lg-0 me-lg-3">Appartements dans la ville {{ this.$route.params.CityId }} pour les périodes entre {{ this.concatYearWeekStart }} et {{ this.concatYearWeekEnd }}</h3>
+          <h3 v-if="this.concatYearWeekStart == this.concatYearWeekEnd" class="col-lg-auto mb-3 mb-lg-0 me-lg-3">
+            Appartements dans la ville {{ this.$route.params.CityId }} pour la semaine du {{ this.concatYearWeekStart }} 
+          </h3>
+          <h3 v-else class="col-lg-auto mb-3 mb-lg-0 me-lg-3">
+            Appartements dans la ville {{ this.$route.params.CityId }} pour la période entre {{ this.concatYearWeekStart }} et {{ this.concatYearWeekEnd }}
+          </h3>
         </div>
       </div>
       <div class="card-body">
@@ -46,8 +51,8 @@
       return{
         apartmentsCityFiltered: [],
         apartmentsCountView: 0,
-        concatYearWeekStart: (this.$route.params.YearStart + '-' + this.$route.params.WeekStart),
-        concatYearWeekEnd: (this.$route.params.YearEnd + '-' + this.$route.params.WeekEnd),
+        concatYearWeekStart: (this.$route.params.YearStart + '-W' + this.$route.params.WeekStart),
+        concatYearWeekEnd: (this.$route.params.YearEnd + '-W' + this.$route.params.WeekEnd),
       }
     },
     mounted(){
