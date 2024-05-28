@@ -58,6 +58,17 @@ async function getApartments() {
     }
 };
 
+async function getApartmentDetails(ApartmentId) {
+    try {
+        const res = await axios.get(`${baseUrl}/Apartment/` + ApartmentId);
+        const apartmentDetail = res.data;
+        return { apartmentDetail };
+    } catch (error) {
+        console.error("There was an error in getting the apartment details from the api:", error);
+        throw error;
+    }
+};
+
 async function getApartmentsInCity(cityId) {
     try {
         const res = await axios.get(`${baseUrl}/Apartment/`+ cityId);
@@ -85,4 +96,4 @@ async function getApartmentsInCityInPeriod(cityId, yearStart, yearEnd, weekStart
     }
 };
 
-export { getCities, getApartments, getCitiesWithVacantAppartment, getApartmentsInCity, getApartmentsInCityInPeriod };
+export { getCities, getApartments, getCitiesWithVacantAppartment, getApartmentsInCity, getApartmentsInCityInPeriod, getApartmentDetails };
