@@ -21,7 +21,14 @@ const router = createRouter({
       name: 'apartment',
       // route level code-splitting
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/Apartments/View.vue')
+      component: () => import('../views/Apartments/ViewCityFiltered.vue')
+    },
+    {
+      path: '/Apartments/:CityId/:YearStart-:WeekStart/:YearEnd-:WeekEnd',
+      name: 'apartmentInCityInPeriod',
+      // route level code-splitting
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/Apartments/ViewCityFiltered.vue')
     },
     {
       path: '/reservations',

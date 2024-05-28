@@ -4,7 +4,7 @@
       <div class="card-header">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-between">
           <h3 class="col-lg-auto mb-3 mb-lg-0 me-lg-3">Villes</h3>
-          <form class="weekpicker row g-3 align-items-center justify-content-center" @submit.prevent="getCitiesWithVacantAppartment">
+          <form class="weekpicker row g-3 align-items-center justify-content-center" @submit.prevent="getCitiesWithVacantAppartmentView">
             <div class="fallbackWeekPicker col-auto">
               <div>
                 <span class="uniform-size">
@@ -42,8 +42,8 @@
             </div>
           </form>
         </div>
-        <div v-if="cityCount >= 0" class="mt-2 text-center">
-          <strong>Nombre de villes trouvées: {{ cityCount }}</strong>
+        <div v-if="cityCountView >= 0" class="mt-2 text-center">
+          <strong>Nombre de villes trouvées: {{ cityCountView }}</strong>
         </div>
       </div>
       <div class="card-body">
@@ -54,22 +54,20 @@
               <th class="fw-bold">Nom de la ville</th>
             </tr>
           </thead>
-          <tbody v-if="this.cities.length >0" class="table-group-divider">
+          <tbody v-if="cityCountView > 0" class="table-group-divider">
             <tr v-for="(city, index) in this.cities" :key="index">       
-              <td> 
-                <RouterLink :to="{ path: '/Apartments/' + city.cityID }"> 
+              <td v-if="yearStart > 0"> 
+                <RouterLink :to="{ path: '/Apartments/' + city.cityID + '/' + this.yearStart + '-' + this.weekStart  + '/' + this.yearEnd + '-' + this.weekEnd  }"> 
                   {{ city.cityID }} 
                 </RouterLink> 
               </td>
-              <td class="fst-italic">
-                {{ city.cityName }}
-              </td>
+              <td v-else> {{ city.cityID }} </td>
+              <td class="fst-italic"> {{ city.cityName }} </td>
             </tr>
           </tbody>
           <tbody v-else>
-            <tr v-for="(city, index) in this.cities" :key="index">       
-              <td colspan="2">Chargement...</td>
-            </tr>
+            <tr v-if="cityCountView != -1"> <td colspan="2">Chargement...</td> </tr>
+            <tr v-else> <td colspan="2">Pas de ville trouvée</td> </tr>
           </tbody>
         </table>
       </div>
@@ -78,80 +76,66 @@
 </template>
 
 <script>
-  import axios from 'axios'
   import { RouterLink } from 'vue-router';
+  import { populateWeeks } from '@utils/dateUtils.js';
+  import { getCities, getCitiesWithVacantAppartment } from '@utils/apiUtils.js';
 
   export default {
     name: 'cities',
     data(){
       return{
         cities: [],
-        cityCount: 0,
+        cityCountView: 0,
         weekStart: 0,
         yearStart: 0,
         weekEnd: 0,
-        yearEnd: 0,
-        baseUrl: import.meta.env.VITE_APP_API_BASE_URL
+        yearEnd: 0
       }
     },
     mounted(){
-        this.getCities();
-        this.populateWeeks();
+      this.populateWeeks();
+      this.getCitiesView();    
     },
     methods: {
-      getCities(){
-        axios.get(`${this.baseUrl}/City`)
-        .then(res => {
-          this.cities = res.data;
-          this.cityCount = res.data.length;
-        })
-        .catch(error => {
-          console.error("There was an error fetching the cities:", error);
-        });
+      async getCitiesView(){
+        try {
+          const { cities, cityCount } = await getCities();
+          this.cities = cities;
+          this.cityCountView = cityCount;
+        } catch (error) {
+          console.error("Error on getting data on the view:", error);
+        }
+      },
+      async getCitiesWithVacantAppartmentView(){
+        const selectedWeekStart = document.querySelector('#fallbackWeek1').value;
+        const selectedYearStart = document.querySelector('#yearStart').value;
+        const selectedWeekEnd = document.querySelector('#fallbackWeek2').value;
+        const selectedYearEnd = document.querySelector('#yearEnd').value;
+        try {
+          const { cities, cityCount } = await getCitiesWithVacantAppartment(selectedYearStart,selectedWeekStart,selectedYearEnd,selectedWeekEnd);
+          if(cityCount > 0) {
+            this.weekStart = selectedWeekStart;
+            this.yearStart = selectedYearStart;
+            this.weekEnd = selectedWeekEnd;
+            this.yearEnd = selectedYearEnd;
+            this.cities = cities;
+            this.cityCountView = cityCount;
+          } else {
+            this.weekStart = 0;
+            this.yearStart = 0;
+            this.weekEnd = 0;
+            this.yearEnd = 0;
+            this.cityCountView = -1;
+          }
+        } catch (error) {
+          console.error("Error on getting data on the view:", error);
+        }
       },
       populateWeeks() {
-        // Rajouter les 53 semaines - source: MDN web docs
-        const weekSelect1 = document.querySelector("#fallbackWeek1");
-        const weekSelect2 = document.querySelector("#fallbackWeek2");
-        for (let i = 1; i <= 53; i++) {
-          const option1 = document.createElement("option");
-          option1.textContent = i < 10 ? `0${i}` : i;
-          weekSelect2.appendChild(option1);
-          const option2 = document.createElement("option");
-          option2.textContent = i < 10 ? `0${i}` : i;
-          weekSelect1.appendChild(option2);
-          }
-        },
-      getCitiesWithVacantAppartment(){
-        this.weekStart = document.querySelector('#fallbackWeek1').value;
-        this.yearStart = document.querySelector('#yearStart').value;
-        let yearWeekStart = `${this.yearStart}${this.weekStart}`;
-        this.weekEnd = document.querySelector('#fallbackWeek2').value;
-        this.yearEnd = document.querySelector('#yearEnd').value;
-        let yearWeekEnd = `${this.yearEnd}${this.weekEnd}`;
-        let apiUrl;
-        if (yearWeekStart == yearWeekEnd) {
-          apiUrl = `${this.baseUrl}/City/${this.yearStart}/${this.weekStart}`;
-        }
-        else if (yearWeekStart > yearWeekEnd){
-          alert('Les périodes séléctionnés sont incorrectes - période de début: '+ yearWeekStart +' , plus grand que la période de fin: '+ yearWeekEnd);
-          return;
-        }
-        else {
-          apiUrl = `${this.baseUrl}/City/${this.yearStart}/${this.weekStart}?yearEnd=${this.yearEnd}&weekEnd=${this.weekEnd}`;
-        };
-        console.log(apiUrl)
-        axios.get(apiUrl)
-        .then(res => {
-          this.cities = res.data;
-          this.cityCount = res.data.length;
-        })
-        .catch(error => {
-          console.error("Error:", error);
-          alert('Erreur de chargement des données');
-        });
-
-      }
+        const weekSelectStart = document.querySelector("#fallbackWeek1");
+        const weekSelectEnd = document.querySelector("#fallbackWeek2");
+        populateWeeks(weekSelectStart,weekSelectEnd);
+      },
     },
   }
 </script>
