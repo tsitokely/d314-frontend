@@ -9,7 +9,7 @@
           </h3>
         </div>
         <div >
-          <p>Température ressenti dans la ville <strong>x</strong> : <i>y</i> °C</p>
+          <p>Température mesurée actuellement à <strong>{{ this.model.apartmentDetail.cityName }}</strong> : <i>{{ this.model.apartmentDetail.cityTemperature }}</i> °C</p>
         </div>
       </div>
       <div class="card-body">
@@ -29,10 +29,6 @@
           <label for=""><strong>Adresse</strong></label>
           <textarea type="text" v-model="model.apartmentDetail.apartmentAdress" class="form-control"  readonly></textarea> 
         </div>
-        <div class="mb-3">
-          <label for=""><strong>Ville</strong></label>
-          <input type="text"  class="form-control"  readonly> 
-        </div>
       </div>
     </div>
   </div>
@@ -40,7 +36,7 @@
 
 <script>
   //import { RouterLink } from 'vue-router';
-  import { getApartmentDetails } from '@utils/apiUtils.js';
+  import { getApartmentDetails, getCityInformation, getCurrentWeather } from '@utils/apiUtils.js';
 
   export default {
     name: 'apartmentDetails',
@@ -51,6 +47,9 @@
             apartmentId: '',
             cityID: '',
             cityName: '',
+            cityLatitude: '',
+            cityLongitude: '',
+            cityTemperature: '',
             apartmentName: '',
             apartmentDesc: '',
             apartmentAdress: '',
@@ -66,17 +65,24 @@
     methods: {
       async getApartmentDetailsView(Id){
         try {
-          const { apartmentDetail } = await getApartmentDetails(this.$route.params.ApartmentId);
+          const { apartmentDetail } = await getApartmentDetails(Id);
           this.model.apartmentDetail.apartmentName = apartmentDetail[0].apartmentName;
           this.model.apartmentDetail.apartmentDesc = apartmentDetail[0].apartmentDesc;
           this.model.apartmentDetail.apartmentAdress = apartmentDetail[0].apartmentAddress;
           this.model.apartmentDetail.apartmentPrice = apartmentDetail[0].apartmentPrice;
-          console.log(apartmentDetail[0]);
+          this.model.apartmentDetail.cityID = apartmentDetail[0].cityID;
+
+          const { cityInfo } = await getCityInformation(this.model.apartmentDetail.cityID);
+          this.model.apartmentDetail.cityName = cityInfo[0].cityName;
+          this.model.apartmentDetail.cityLatitude = cityInfo[0].cityLatitude;
+          this.model.apartmentDetail.cityLongitude = cityInfo[0].cityLongitude;
+          
+          const { weatherData } = await getCurrentWeather(this.model.apartmentDetail.cityLatitude, this.model.apartmentDetail.cityLongitude);
+          this.model.apartmentDetail.cityTemperature = weatherData.current.temperature_2m;
         } catch (error) {
           console.error("Error on getting data on the view:", error);
-        }
+        };
       },
-      
     },
   }
 </script>

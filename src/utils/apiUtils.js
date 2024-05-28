@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 const baseUrl = import.meta.env.VITE_APP_API_BASE_URL
+const weatherUrl = import.meta.env.VITE_APP_API_WEATHER_URL
 
 // API sur les villes
 async function getCities() {
@@ -11,6 +12,17 @@ async function getCities() {
         return { cities, cityCount };
     } catch (error) {
         console.error("There was an error in getting the cities from the api:", error);
+        throw error;
+    }
+};
+
+async function getCityInformation(cityID) {
+    try {
+        const res = await axios.get(`${baseUrl}/City/` + cityID);
+        const cityInfo = res.data;
+        return { cityInfo };
+    } catch (error) {
+        console.error("There was an error in getting the cities details from the api:", error);
         throw error;
     }
 };
@@ -96,4 +108,20 @@ async function getApartmentsInCityInPeriod(cityId, yearStart, yearEnd, weekStart
     }
 };
 
-export { getCities, getApartments, getCitiesWithVacantAppartment, getApartmentsInCity, getApartmentsInCityInPeriod, getApartmentDetails };
+// API sur la météo - api externe nécessitant internet sur la machine cliente
+async function getCurrentWeather(latitude, longitude) {
+    try {
+        const res = await axios.get(`${weatherUrl}/?latitude=` + latitude + `&longitude=` + longitude + `&current=temperature_2m&timezone=auto`);
+        const weatherData = res.data;
+        return { weatherData };
+    } catch (error) {
+        console.error("There was an error in getting the weather data from the weather api:", error);
+        throw error;
+    }
+};
+
+export { 
+    getCities, getCitiesWithVacantAppartment, getCityInformation, 
+    getApartments, getApartmentsInCity, getApartmentsInCityInPeriod,  getApartmentDetails, 
+    getCurrentWeather
+};
