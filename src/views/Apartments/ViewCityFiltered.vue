@@ -4,10 +4,10 @@
       <div class="card-header">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-between">
           <h3 v-if="this.concatYearWeekStart == this.concatYearWeekEnd" class="col-lg-auto mb-3 mb-lg-0 me-lg-3">
-            Appartements dans la ville {{ this.$route.params.CityId }} pour la semaine du {{ this.concatYearWeekStart }} 
+            Appartements dans {{ apartmentsCityName }} pour la semaine du {{ this.concatYearWeekStart }} 
           </h3>
           <h3 v-else class="col-lg-auto mb-3 mb-lg-0 me-lg-3">
-            Appartements dans la ville {{ this.$route.params.CityId }} pour la période entre {{ this.concatYearWeekStart }} et {{ this.concatYearWeekEnd }}
+            Appartements dans {{ apartmentsCityName }} pour la période entre {{ this.concatYearWeekStart }} et {{ this.concatYearWeekEnd }}
           </h3>
         </div>
       </div>
@@ -43,7 +43,7 @@
 
 <script>
   import { RouterLink } from 'vue-router';
-  import { getApartmentsInCity, getApartmentsInCityInPeriod } from '@utils/apiUtils.js';
+  import { getCityInformation, getApartmentsInCityInPeriod } from '@utils/apiUtils.js';
 
   export default {
     name: 'apartmentInCity',
@@ -51,6 +51,7 @@
       return{
         apartmentsCityFiltered: [],
         apartmentsCountView: 0,
+        apartmentsCityName: '',
         concatYearWeekStart: (this.$route.params.YearStart + '-W' + this.$route.params.WeekStart),
         concatYearWeekEnd: (this.$route.params.YearEnd + '-W' + this.$route.params.WeekEnd),
       }
@@ -68,11 +69,14 @@
           const { apartments, apartmentsCount } = await getApartmentsInCityInPeriod(cityId, yearStart, yearEnd, weekStart, weekEnd);
           if(apartmentsCount > 0){
             this.apartmentsCityFiltered = apartments;
-            this.apartmentsCountView = apartmentsCount;
+            this.apartmentsCountView = apartmentsCount;         
+            const { cityInfo } = await getCityInformation(this.apartmentsCityFiltered[0].cityID);
+            this.apartmentsCityName = cityInfo[0].cityName;
           } else {
             this.apartmentsCityFiltered = [];
             this.apartmentsCountView = -1;
           }
+
           
         } catch (error) {
           console.error("Error on getting data on the view:", error);
