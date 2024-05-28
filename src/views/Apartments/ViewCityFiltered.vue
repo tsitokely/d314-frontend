@@ -56,7 +56,6 @@
       }
     },
     mounted(){
-        //this.getApartmentsInCityView(this.$route.params.CityId);
         this.getApartmentsInCityInPeriodView(this.$route.params.CityId, 
                                             this.$route.params.YearStart,
                                             this.$route.params.YearEnd, 
@@ -64,18 +63,9 @@
                                             this.$route.params.WeekEnd);
     },
     methods: {
-      async getApartmentsInCityView(cityId){
-        try {
-          const { apartments, apartmentsCount } = await getApartmentsInCity(cityId);
-          this.apartmentsCityFiltered = apartments;
-          this.apartmentsCountView = apartmentsCount;
-        } catch (error) {
-          console.error("Error on getting data on the view:", error);
-        }
-      },
       async getApartmentsInCityInPeriodView(cityId, yearStart, yearEnd, weekStart, weekEnd){
         try {
-          const { apartments, apartmentsCount } = await getApartmentsInCityInPeriod(cityId, yearStart, yearEnd, yearStart, weekEnd);
+          const { apartments, apartmentsCount } = await getApartmentsInCityInPeriod(cityId, yearStart, yearEnd, weekStart, weekEnd);
           if(apartmentsCount > 0){
             this.apartmentsCityFiltered = apartments;
             this.apartmentsCountView = apartmentsCount;
