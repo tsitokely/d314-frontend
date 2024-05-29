@@ -2,14 +2,20 @@
   <div class="container">
     <div class="card">
       <div class="card-header">
-        <div class="mb-3">
-          <h3 class="col-lg-auto mb-3 mb-lg-0 me-lg-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h3 class="mb-0">
             Appartement avec la référence #{{ apartmentId }}
-            <button class="btn btn-primary float-end">Réserver</button>
+            
           </h3>
+          <button class="btn btn-primary float-end">Réserver</button>
         </div>
-        <div >
-          <p>Température mesurée actuellement à <strong>{{ this.model.apartmentDetail.cityName }}</strong> : <i>{{ this.model.apartmentDetail.cityTemperature }}</i> °C</p>
+        <div class="weather-info d-flex align-items-center">
+          <p class="mb-0">
+            Température mesurée actuellement à <strong>{{ this.model.apartmentDetail.cityName }}</strong> : <i>{{ this.model.apartmentDetail.cityTemperature }}</i> °C
+          </p>
+          <div class="ms-3 me-3 mb-0">
+            <span :class="weatherIconClass" style="font-size: 2rem;"></span>
+          </div>
         </div>
       </div>
       <div class="card-body">
@@ -50,6 +56,7 @@
             cityLatitude: '',
             cityLongitude: '',
             cityTemperature: '',
+            weatherConditionCode: '',
             apartmentName: '',
             apartmentDesc: '',
             apartmentAdress: '',
@@ -61,6 +68,46 @@
     },
     mounted(){
       this.getApartmentDetailsView(this.$route.params.ApartmentId)
+    },
+    computed: {
+      weatherIconClass() {
+        const code = this.model.apartmentDetail.weatherConditionCode;
+
+        // mapping entre les codes WMO 4677 et les icones bootstrap
+        const iconMapping = {
+        0: 'bi bi-sun-fill', // Clear sky
+        1: 'bi bi-sun', // Mainly clear
+        2: 'bi bi-cloud-sun', // Partly cloudy
+        3: 'bi bi-cloud', // Overcast
+        45: 'bi bi-cloud-fog2', // Fog
+        48: 'bi bi-cloud-fog2', // Depositing rime fog
+        51: 'bi bi-cloud-drizzle', // Light drizzle
+        53: 'bi bi-cloud-drizzle', // Moderate drizzle
+        55: 'bi bi-cloud-drizzle-fill', // Dense drizzle
+        56: 'bi bi-cloud-hail', // Freezing, light drizzle
+        57: 'bi bi-cloud-hail-fill', // Freezing, dense drizzle
+        61: 'bi bi-cloud-rain', // Slight rain
+        63: 'bi bi-cloud-rain-fill', // Moderate rain
+        65: 'bi bi-cloud-rain-heavy', // Heavy rain
+        66: 'bi bi-cloud-sleet', // Freezing, light rain
+        67: 'bi bi-cloud-sleet-fill', // Freezing, heavy rain
+        71: 'bi bi-cloud-snow', // Slight snow
+        73: 'bi bi-cloud-snow', // Moderate snow
+        75: 'bi bi-cloud-snow-fill', // Heavy snow
+        77: 'bi bi-cloud-snow', // Snow grains
+        80: 'bi bi-cloud-rain', // Rain showers, slight
+        81: 'bi bi-cloud-rain-fill', // Rain showers, moderate
+        82: 'bi bi-cloud-rain-heavy', // Rain showers, violent
+        85: 'bi bi-cloud-snow', // Snow showers, slight
+        86: 'bi bi-cloud-snow-fill', // Snow showers, heavy
+        95: 'bi bi-cloud-lightning', // Thunderstorm, slight or moderate
+        96: 'bi bi-cloud-lightning-rain', // Thunderstorm with hail, slight
+        99: 'bi bi-cloud-lightning-rain-fill', // Thunderstorm with hail, heavy
+        };
+
+        // retourner la valeur de l'icone correspondant - sinon un icone par défaut
+        return iconMapping[code] || 'bi bi-sun';
+      }
     },
     methods: {
       async getApartmentDetailsView(Id){
@@ -79,6 +126,9 @@
           
           const { weatherData } = await getCurrentWeather(this.model.apartmentDetail.cityLatitude, this.model.apartmentDetail.cityLongitude);
           this.model.apartmentDetail.cityTemperature = weatherData.current.temperature_2m;
+          this.model.apartmentDetail.weatherConditionCode = weatherData.current.weather_code;
+          console.log(weatherData);
+          console.log(this.model.apartmentDetail.weatherConditionCode);
         } catch (error) {
           console.error("Error on getting data on the view:", error);
         };

@@ -1,5 +1,6 @@
 @import './base.css';
 @import 'bootstrap';
+@import 'bootstrap-icons';
 
 .nav-link {
   color: whitesmoke;
