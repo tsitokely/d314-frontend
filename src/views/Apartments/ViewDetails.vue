@@ -7,7 +7,7 @@
             Appartement avec la référence #{{ apartmentId }}
             
           </h3>
-          <button class="btn btn-primary float-end">Réserver</button>
+          <button class="btn btn-success float-end">Réserver</button>
         </div>
         <div class="weather-info d-flex align-items-center">
           <p class="mb-0">
@@ -127,8 +127,6 @@
           const { weatherData } = await getCurrentWeather(this.model.apartmentDetail.cityLatitude, this.model.apartmentDetail.cityLongitude);
           this.model.apartmentDetail.cityTemperature = weatherData.current.temperature_2m;
           this.model.apartmentDetail.weatherConditionCode = weatherData.current.weather_code;
-          console.log(weatherData);
-          console.log(this.model.apartmentDetail.weatherConditionCode);
         } catch (error) {
           console.error("Error on getting data on the view:", error);
         };

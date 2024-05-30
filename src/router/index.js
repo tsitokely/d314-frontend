@@ -17,11 +17,11 @@ const router = createRouter({
       component: () => import('../views/Cities/View.vue')
     },
     {
-      path: '/apartment',
+      path: '/Apartments',
       name: 'apartment',
       // route level code-splitting
       // which is lazy-loaded when the route is visited.
-      component: () => import('../views/Apartments/ViewCityFiltered.vue')
+      component: () => import('../views/Apartments/View.vue')
     },
     {
       path: '/Apartments/:CityId/:YearStart-:WeekStart/:YearEnd-:WeekEnd',
@@ -43,6 +43,20 @@ const router = createRouter({
       // route level code-splitting
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/Reservations/View.vue')
+    },
+    {
+      path: '/reservations/create',
+      name: 'reservationsCreate',
+      // route level code-splitting
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/Reservations/Create.vue')
+    },
+    {
+      path: '/reservations/create/:ApartmentId',
+      name: 'reservationsCreateFromApartmentId',
+      // route level code-splitting
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/Reservations/CreateFromId.vue')
     }
   ]
 })

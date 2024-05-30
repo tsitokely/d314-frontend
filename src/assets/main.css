@@ -21,23 +21,41 @@
   
 }
 .uniform-size label {
-  width: 120px;
+  width: 140px;
 }
 .uniform-size select {
-  width: 60px;
+  width: 70px;
 }
 .uniform-size label,
 .uniform-size select {
   
-  box-sizing: border-box; /* Includes padding and border in element's total width and height */
-  padding: 8px; /* Adds some padding inside the label/select */
-  font-size: 14px; /* Sets a base font size */
-  margin-bottom: 10px; /* Adds some space below each element */
+  box-sizing: border-box;
+  padding: 8px; 
+  font-size: 14px;
+  margin-bottom: 10px;
  }
 .uniform-size label {
-   color: #333; /* Optional: Changes the label text color */
+   color: #333;
  }
 .uniform-size select {
-   background-color: #fff; /* Optional: Changes the select background color */
-   border: 1px solid #ccc; /* Optional: Adds a border around the select */
+   background-color: #fff; 
+   border: 1px solid #ccc;
  }
+
+ .reservationPeriodContainer{
+  display: flex;
+ }
+
+ .reservationPeriod:last-of-type {
+  margin: auto
+}
+
+.reservationPeriodYear,.reservationPeriodWeek {
+  width:300px;
+}
+.reservationPeriodYear>label,
+.reservationPeriodYear>select,
+.reservationPeriodWeek>label,
+.reservationPeriodWeek>select{
+  width:140px;
+}

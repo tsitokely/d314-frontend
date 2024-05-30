@@ -22,7 +22,7 @@ import { RouterLink, RouterView } from 'vue-router'
                 <RouterLink class="nav-link" to="/cities">Villes</RouterLink>
               </li>
               <li class="nav-item">
-                <RouterLink class="nav-link" to="/apartment">Appartements</RouterLink>
+                <RouterLink class="nav-link" to="/Apartments">Appartements</RouterLink>
               </li>
               <li class="nav-item">
                 <RouterLink class="nav-link" to="/reservations">Réservations</RouterLink>
