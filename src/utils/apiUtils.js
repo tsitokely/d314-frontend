@@ -98,12 +98,12 @@ async function getApartmentsInCity(cityId) {
 };
 
 async function getApartmentsInPeriod(yearStart, yearEnd, weekStart, weekEnd) {
-    const yearWeekStart = `${yearStart}${weekStart}`;
-    const yearWeekEnd = `${yearEnd}${weekEnd}`;
+    const yearWeekStart = parseInt(`${yearStart}${weekStart}`);
+    const yearWeekEnd = parseInt(`${yearEnd}${weekEnd}`);
     let apiUrl =``;
     let apartments = [];
     let apartmentsCount = 0;
-    if (yearWeekStart == yearWeekEnd) {
+    if (yearWeekStart === yearWeekEnd) {
       apiUrl = `${baseUrl}/Apartment/`+ yearStart + `-` + weekStart + `/` + yearStart + `-` + weekStart;
     }
     else if (yearWeekStart > yearWeekEnd){
@@ -151,8 +151,7 @@ async function getReservations() {
         const reservationsCount = res.data.length;
         return { reservations, reservationsCount };
     } catch (error) {
-        console.error("There was an error in getting the reservations from the api:", error);
-        throw error;
+        console.log("There was an error in getting the reservations from the api:", error.message);
     }
 };
 
@@ -161,7 +160,7 @@ async function createReservations(reservation) {
     try {
         return await apiCall.post('/Reservation/', reservation);
     } catch (error) {
-        console.error("There was an error in creating the reservation through the api:", error);
+        console.log("There was an error in creating the reservation through the api:", error.message);
         throw error;
     }
 };
@@ -170,7 +169,7 @@ async function EditReservation(reservations) {
     try {
         return await apiCall.put('/Reservation/', reservations);
     } catch (error) {
-        console.error("There was an error in in editing the reservation through the api:", error);
+        console.log("There was an error in in editing the reservation through the api:", error);
         throw error;
     }
 };
@@ -179,7 +178,7 @@ async function DeleteReservation(reservation) {
     try {
         return await apiCall.delete('/Reservation/', reservation);
     } catch (error) {
-        console.error("There was an error in deleting the reservation through the api:", error);
+        console.log("There was an error in deleting the reservation through the api:", error);
         throw error;
     }
 };
