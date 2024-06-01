@@ -7,7 +7,7 @@
             Appartement avec la référence #{{ apartmentId }}
             
           </h3>
-          <button class="btn btn-success float-end">Réserver</button>
+          <RouterLink :to="{ path: '/reservations/create/' + apartmentId }" class="btn btn-success float-end">Réserver</RouterLink>
         </div>
         <div class="weather-info d-flex align-items-center">
           <p class="mb-0">
