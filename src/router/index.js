@@ -57,6 +57,13 @@ const router = createRouter({
       // route level code-splitting
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/Reservations/CreateFromId.vue')
+    },
+    {
+      path: '/reservations/:ReservationId/',
+      name: 'reservationEdit',
+      // route level code-splitting
+      // which is lazy-loaded when the route is visited.
+      component: () => import('../views/Reservations/Edit.vue')
     }
   ]
 })

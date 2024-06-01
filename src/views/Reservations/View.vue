@@ -32,7 +32,14 @@
               <td class="fst-italic"> {{ reservation.reservationName }} </td>
               <td> {{ reservation.reservationDateYear + '-W' + reservation.reservationDateNoSem }} </td>
               <td>
-                <RouterLink to="/" class="btn btn-info me-1"> Modifier </RouterLink>
+                <RouterLink :to="{ 
+                  name: 'reservationEdit', 
+                  params: { ReservationId: reservation.reservationID }, 
+                  query: { 
+                    reservationName: reservation.reservationName,
+                    reservationPeriod: reservation.reservationDateYear + '-W' + reservation.reservationDateNoSem,
+                    reservationApartmentName: apartmentNames[index], } 
+                }" class="btn btn-info me-1"> Modifier </RouterLink>
                 <button type="button" @click="DeleteReservationView(reservation.reservationID)" class="btn btn-danger me-1"> Supprimer </button> 
               </td>        
             </tr>

@@ -165,11 +165,11 @@ async function createReservations(reservation) {
     }
 };
 
-async function EditReservation(reservation) {
+async function EditReservation(oldReservationId, newReservationData) {
     try {
-        return await apiCall.put('/Reservation/', reservation);
+        return await apiCall.put('/Reservation/'+ oldReservationId, newReservationData);
     } catch (error) {
-        console.log("There was an error in in editing the reservation through the api:", error);
+        console.log("There was an error in in editing the reservation through the api:", error.message);
         throw error;
     }
 };

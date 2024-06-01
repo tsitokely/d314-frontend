@@ -10,4 +10,13 @@ function populateWeeks(weekSelect1, weekSelect2) {
     }
 }
 
-export { populateWeeks };
+function populateOneWeek(weekSelect) {
+    // Rajouter les 53 semaines - source: MDN web docs
+    for (let i = 1; i <= 52; i++) {
+        const option = document.createElement("option");
+        option.textContent = i < 10 ? `0${i}` : i;
+        weekSelect.appendChild(option);
+    }
+}
+
+export { populateWeeks, populateOneWeek };
