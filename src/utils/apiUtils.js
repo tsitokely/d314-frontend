@@ -165,18 +165,18 @@ async function createReservations(reservation) {
     }
 };
 
-async function EditReservation(reservations) {
+async function EditReservation(reservation) {
     try {
-        return await apiCall.put('/Reservation/', reservations);
+        return await apiCall.put('/Reservation/', reservation);
     } catch (error) {
         console.log("There was an error in in editing the reservation through the api:", error);
         throw error;
     }
 };
 
-async function DeleteReservation(reservation) {
+async function DeleteReservation(reservationId) {
     try {
-        return await apiCall.delete('/Reservation/', reservation);
+        return await apiCall.delete('/Reservation/' + reservationId);
     } catch (error) {
         console.log("There was an error in deleting the reservation through the api:", error);
         throw error;

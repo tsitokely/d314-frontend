@@ -33,7 +33,7 @@
               <td> {{ reservation.reservationDateYear + '-W' + reservation.reservationDateNoSem }} </td>
               <td>
                 <RouterLink to="/" class="btn btn-info me-1"> Modifier </RouterLink>
-                <button class="btn btn-danger me-1"> Supprimer </button> 
+                <button type="button" @click="DeleteReservationView(reservation.reservationID)" class="btn btn-danger me-1"> Supprimer </button> 
               </td>        
             </tr>
           </tbody>
@@ -49,7 +49,7 @@
 
 <script>
   import { RouterLink } from 'vue-router';
-  import { getReservations, getApartmentDetails } from '@utils/apiUtils.js';
+  import { getReservations, getApartmentDetails, DeleteReservation } from '@utils/apiUtils.js';
 
   export default {
     name: 'reservations',
@@ -69,13 +69,19 @@
           const { reservations, reservationsCount } = await getReservations();
           this.reservations = reservations;
           this.reservationsCountView = reservationsCount;
-          
           const apartmentIDs = this.reservations.map(reservation => reservation.apartmentID);
           const apartmentInfoPromises = apartmentIDs.map(apartmentID => getApartmentDetails(apartmentID));
           const apartmentInfo = await Promise.all(apartmentInfoPromises);
           this.apartmentNames = apartmentInfo.flatMap(apartment => apartment.apartmentDetail.map(apartmentInfo => apartmentInfo.apartmentName));
         } catch (error) {
           console.error("Error on getting data on the view:", error);
+        }
+      },
+      async DeleteReservationView(reservationId){
+        if(confirm("Est-ce que vous êtes certain de vouloir supprimer cette réservation ?")){
+          const res = await DeleteReservation(reservationId);
+          alert("Réservation #"+reservationId+" supprimée");
+          this.getReservationsView(); 
         }
       },
     },
