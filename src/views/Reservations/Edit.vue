@@ -105,7 +105,7 @@
               });
 
         try{
-          console.log(this.oldReservationId, reservation);
+          //console.log(this.oldReservationId, reservation);
           const response = await EditReservation(this.oldReservationId, reservation[0]);
           if (response.status === 200) {
             this_.message = 'La réservation a été modifié avec succès!';
@@ -137,7 +137,7 @@
         const endYear   = parseInt(document.querySelector(".reservationEndYear").value);
         const endWeek  = parseInt(document.querySelector("#EndWeek").value);
         const endYearWeek = parseInt(`${endYear}${endWeek.toString().padStart(2, '0')}`);
-        console.log(startYearWeek,endYearWeek);
+        //console.log(startYearWeek,endYearWeek);
 
         if (startYear === endYear) {
             for (let week = startWeek; week <= endWeek; week++) {

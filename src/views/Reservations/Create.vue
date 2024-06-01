@@ -122,15 +122,11 @@
             alert(this_.message);
             }
         } catch (error) {
-            if (error.response.status === 409) {
-              this_.message = 'Un ou plusieurs réservations existent déjà dans la BD.';
-              alert(this_.message);
-            } else {
-              this_.message = 'Une erreur s\'est produite pendant la création de la réservation.';
+              this_.message = 'Soit l\'appartement n\'est pas disponible sur la période, soit la réservation existe déjà';
               alert(this_.message);
             }
           }
-        },
+        ,
         async getApartmentsView(){
           try {
             const { apartments, apartmentsCount } = await getApartments();
@@ -151,9 +147,13 @@
         const endYear   = parseInt(document.querySelector(".reservationEndYear").value);
         const endWeek  = parseInt(document.querySelector("#EndWeek").value);
         const endYearWeek = parseInt(`${endYear}${endWeek.toString().padStart(2, '0')}`);
-        console.log(startYearWeek,endYearWeek);
+        //console.log(startYearWeek,endYearWeek);
 
         if (startYear === endYear) {
+          if (startWeek > endWeek) {
+            alert('Les périodes séléctionnés sont incorrectes : '+ startYear +'-W'+ startWeek + '>'+ endYear +'-W'+ endWeek); 
+          }
+          else{
             for (let week = startWeek; week <= endWeek; week++) {
               reservations.push({
                 reservationName: this.model.reservationDetails.reservationName,
@@ -162,6 +162,7 @@
                 apartmentID: this.model.reservationDetails.apartmentID,
               });
             };
+          }
         } else {
           if (startYearWeek > endYearWeek){
             alert('Les périodes séléctionnés sont incorrectes : '+ startYear +'-W'+ startWeek + '>'+ endYear +'-W'+ endWeek); 
@@ -201,7 +202,7 @@
             }
           }
         }
-        if(reservations.length!=0){
+        if(reservations.length>0){
           this.reservations = reservations;
           this.createReservations();
         }

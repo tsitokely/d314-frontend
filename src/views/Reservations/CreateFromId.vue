@@ -204,7 +204,7 @@
             this.reservations = reservations;
             this.createReservations();
           }
-          console.log(this.reservations);
+          //console.log(this.reservations);
         },
       }
     }
