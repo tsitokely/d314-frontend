@@ -4,7 +4,7 @@
 
 
 <hr>
-<p align="center"><a href="#screenshots">Screenshots</a> &bull; <a href="#description">Description</a> &bull; <a href="#features">Fonctionnalités</a> &bull; <a href="#installation-and-updates">Installations et mise à jour</a> &bull; <a href="#contribution">Remerciements</a> &bull; <a href="#license">License</a></p>
+<p align="center"><a href="#screenshots">Screenshots</a> &bull; <a href="#description">Description</a> &bull; <a href="#Fonctionnalités">Fonctionnalités</a> &bull; <a href="#installation-and-updates">Installations et mise à jour</a> &bull; <a href="#contribution">Remerciements</a> &bull; <a href="#license">License</a></p>
 <hr>
 
 ## Screenshots
@@ -22,7 +22,7 @@ L'application a été pensé et configuré pour le service API dans le repo gith
 En ce sens, pour l'utiliser pour d'autres services, il faudra faire des ajustements.
 
 
-### Fonctionnalités
+## Fonctionnalités
 
 * Lister les villes disponibles sur le service (villes non ajoutables depuis le front-end)
 * Lister les appartements disponibles sur le service (appartements non ajoutables depuis le front-end)
@@ -34,11 +34,17 @@ En ce sens, pour l'utiliser pour d'autres services, il faudra faire des ajusteme
 1. Avant toute installation, veuillez vous asssurer que le service API est fonctionnel, puis notez son addresse http
 2. Prenez le package de l'application, puis en naviguant dans le répetoire de base, ouvrez le fichier `.env`
 3. Modifier le fichier `.env` selon l'addresse du service ainsi que l'api méteo
+
+Il suffira de mettre à jour les valeurs suivantes:
 ```sh
-VITE_APP_API_BASE_URL=http://localhost:8080/WSLocaPart_war_exploded/api
+VITE_APP_API_BASE_URL=http://localhost:8888/WSLocaPart-1.0/api
 VITE_APP_API_WEATHER_URL=https://api.open-meteo.com/v1/meteofrance
 ```
-4. Pour installer les dépendances nécessaire, il faut lancer la commande suivante dans le répertoire de l'application
+L'URI de base du service est de la forme suivante:
+```sh
+http://hostname:port/artefact/api
+```
+4. Pour installer les dépendances nécessaire `(dossier node_modules)`, il faut lancer la commande suivante dans le répertoire de l'application
 
 ```sh
 npm install
@@ -51,9 +57,29 @@ npm run dev
 ```
 
 ### Mise en production
-Pour la mise en production, il suffit de lancer la commande suivante dans le répertoire de l'application
+1. Pour la mise en production, il faut dans un premier temps compiler les ressources avec la commande suivante. On obtiendra normalement le dossier `dist` après la fin de la commande.
 ```sh
 npm run build
+```
+2. Pour prévisualiser l'application sur le poste local, nous pouvons lancer la commande suivante
+```sh
+npm run preview
+```
+3. Pour finir, il faudra par la suite déployer l'application sur un serveur web
+   
+*Veuillez noter que l'uri de l'application doit pointer sur le root sur le serveur web sinon l'application ne pourrait fonctionner*
+
+Plus de détails sur le site de vite: [Build](https://vitejs.dev/guide/build.html) et [Static-deploy](https://vitejs.dev/guide/static-deploy.html)
+
+4. Il est aussi possible de lancer l'application sur poste local en utilisant [`serve`](https://www.npmjs.com/package/serve)
+
+Pour l'installation de `serve`, il suffit de lancer la commande suivante
+```sh
+npm install --global serve
+```
+Puis, en étant dans le répertoire de `dist`, lancer la commande suivante si l'on veut lancer l'application sur le port 9000
+```sh
+serve dist -l 9000
 ```
 
 ## Contribution
