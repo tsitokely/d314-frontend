@@ -4,7 +4,7 @@
 
 
 <hr>
-<p align="center"><a href="#screenshots">Screenshots</a> &bull; <a href="#description">Description</a> &bull; <a href="#features">Fonctionnalités</a> &bull; <a href="#installation-and-updates">Installations et mise à jour</a> &bull; <a href="#contribution">Contribution</a> &bull; <a href="#donate">Donate</a> &bull; <a href="#license">License</a></p>
+<p align="center"><a href="#screenshots">Screenshots</a> &bull; <a href="#description">Description</a> &bull; <a href="#features">Fonctionnalités</a> &bull; <a href="#installation-and-updates">Installations et mise à jour</a> &bull; <a href="#contribution">Remerciements</a> &bull; <a href="#license">License</a></p>
 <hr>
 
 ## Screenshots
@@ -72,7 +72,22 @@ Si vous souhaitez vous impliquer, envoyez-moi un message.
 
 
 ## License
-[![GNU GPLv3 Image](https://www.gnu.org/graphics/gplv3-127x51.png)](http://www.gnu.org/licenses/gpl-3.0.en.html)  
+
+"Locapart - client" is an application that allows you to rent apartments through the call of a specific REST service
+Copyright (C) 2024 Tsitohaina Toetra Rakotondramasy
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 The application is a free Software: You can use, study share and improve it at yourwill. Specifically you can redistribute and/or modify it under the terms of the [GNU General Public License](https://www.gnu.org/licenses/gpl.html) as
 published by the Free Software Foundation, either version 3 of the License, or
